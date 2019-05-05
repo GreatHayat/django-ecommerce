@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AJAX Test</title>
+    <style>
+        .tabs{
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+        .tabs button{
+            border: none;
+            outline: none;
+            float: left;
+            padding: 14px 16px;
+            font-size: 17px;
+            cursor: pointer;
+        }
+        .tabcontent{
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+    </style>
+</head>
+<body>
+    <button type="submit" id="btn">Apple Data</button>
+    <button type="submit" id="btn">Samsung Data</button>
+    <ul>
+        {% for brand in brands %}
+            <li><a href="#" id="{{brand.id}}" onclick="loadData(event,'{{brand.id}}')">{{brand.name}}</a></li>
+        {% endfor %}
+    </ul>
+
+
+    <div id="output">
+      {% for product in products %}
+        <a href="{% url 'product_details' product.id %}">
+            <img src="{{product.image.url}}" alt="">
+        </a>
+      {% endfor %}
+    </div>
+    <script>
+        //document.getElementById(get_id).addEventListener('click', loadData);
+
+        function loadData(event, brand_id){
+            event.preventDefault();
+            event.stopPropagation();
+
+            
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", `http://127.0.0.1:8000/test/${brand_id}`, true);
+            xhr.onload = function(){
+                if(this.status == 200){
+                    const response = JSON.parse(this.responseText);
+                    let output = '';
+                    
+                    for(var i = 0; i < response.length; i++){
+                        output += `
+                            <li>${response[i].name}</li>
+                            <h2>${response[i].brand_id}</h2>
+                            <a href="details/${response[i].id}">
+                            <img src="media/${response[i].image}"/>
+                            </a>
+                        `;
+                    }
+                    document.getElementById('output').innerHTML = output;
+                }
+            }
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

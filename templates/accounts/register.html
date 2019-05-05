@@ -1,0 +1,168 @@
+
+{% load widget_tweaks static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>User Registration</title>
+    <style>
+            body{
+                color: #fff;
+                background: #63738a;
+                font-family: 'Roboto', sans-serif;
+            }
+            .form-control{
+                height: 40px;
+                box-shadow: none;
+                color: #969fa4;
+            }
+            .form-control:focus{
+                border-color: #5cb85c;
+            }
+            .form-control, .btn{        
+                border-radius: 3px;
+            }
+            .signup-form{
+                width: 860px;
+                margin: 0 auto;
+                padding: 10px 0;
+            }
+            .signup-form h2{
+                color: #636363;
+                margin: 0 0 15px;
+                position: relative;
+                text-align: center;
+            }
+            .signup-form h2:before, .signup-form h2:after{
+                content: "";
+                height: 2px;
+                width: 30%;
+                background: #d4d4d4;
+                position: absolute;
+                top: 50%;
+                z-index: 2;
+            }	
+            .signup-form h2:before{
+                left: 0;
+            }
+            .signup-form h2:after{
+                right: 0;
+            }
+            .signup-form .hint-text{
+                color: #999;
+                margin-bottom: 10px;
+                text-align: center;
+            }
+            .signup-form form{
+                color: #999;
+                border-radius: 3px;
+                margin-bottom: 10px;
+                background: #f2f3f7;
+                box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+                padding: 25px;
+            }
+            .signup-form .form-group{
+                margin-bottom: 20px;
+            }
+            .signup-form input[type="checkbox"]{
+                margin-top: 3px;
+            }
+            .signup-form .btn{        
+                font-size: 16px;
+                font-weight: bold;		
+                min-width: 140px;
+                outline: none !important;
+            }
+            .signup-form .row div:first-child{
+                padding-right: 10px;
+            }
+            .signup-form .row div:last-child{
+                padding-left: 10px;
+            }    	
+            .signup-form a{
+                color: #fff;
+                text-decoration: underline;
+            }
+            .signup-form a:hover{
+                text-decoration: none;
+            }
+            .signup-form form a{
+                color: #5cb85c;
+                text-decoration: none;
+            }	
+            .signup-form form a:hover{
+                text-decoration: underline;
+            }  
+            #user_check{
+                padding: 5px;
+                font-weight: bold;
+            }
+    </style>
+</head>
+<body>
+    <div class="container signup-form">
+        <form method="POST">
+                <h2>Register</h2>
+                <p class="hint-text">Create your account. It's free and only takes a minute.</p>
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    {{form.first_name.label_tag}}
+                    {% render_field form.first_name class='form-control' %}
+                    {% if form.first_name.help_text %}
+                    <small class="form-text text-muted">{{ form.first_name.help_text }}</small>
+                     {% endif %}
+                </div>
+                <div class="form-group col-md-6">
+                    {{ form.last_name.label_tag }}
+                    {% render_field form.last_name class="form-control" %}
+                    {% if form.last_name.help_text %}
+                    <small class="form-text text-muted">{{ form.last_name.help_text }}</small>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    {{form.username.label_tag}}
+                    {% render_field form.username class='form-control' %}
+                    {% if form.username.help_text %}
+                    <small id="user_check"></small>
+                    <small class="form-text text-muted">{{ form.username.help_text }}</small>
+                    {% endif %}
+                </div>
+                <div class="form-group col-md-6">
+                    {{ form.email.label_tag }}
+                    {% render_field form.email class="form-control" %}
+                    {% if form.email.help_text %}
+                    <small class="form-text text-muted">{{ form.email.help_text }}</small>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-group col-md-12">
+                {{ form.password1.label_tag }}
+                {% render_field form.password1 class="form-control" %}
+                {% if form.password1.help_text %}
+                    <small class="form-text text-muted">{{ form.password1.help_text }}</small>
+                {% endif %}
+            </div>
+            <div class="form-group col-md-12">
+                {{ form.password2.label_tag }}
+                {% render_field form.password2 class="form-control" %}
+                {% if form.password2.help_text %}
+                <small class="form-text text-muted">{{ form.password2.help_text }}</small>
+                {% endif %}
+            </div>
+            <div class="form-group col-md-12">
+                <button type="submit" class="btn btn-success btn-lg btn-block">Register Now</button>
+            </div>
+        </form>
+        <div class="text-center">Already have an account? <a href="{% url 'login' %}">Sign in</a></div>
+    </div>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/accounts.js' %}"></script>
+</body>
+</html>
